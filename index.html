@@ -393,8 +393,9 @@ nav{
 /* SKILLS */
 .skills-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  grid-template-columns:repeat(3,1fr);
   gap:20px;
+  align-items:stretch;
 }
 .skill-cat{padding:28px}
 .skill-cat-name{
@@ -548,19 +549,18 @@ nav{
 }
 .contact-links{display:flex;flex-direction:column;gap:12px}
 
-.clink{
-  padding:18px 22px;
-  display:flex;align-items:center;gap:14px;
-  text-decoration:none;color:var(--text);
-  border-radius:14px;
-  background:rgba(230,57,70,0.04);
-  border:1px solid rgba(230,57,70,0.12);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  position:relative;overflow:hidden;
-  box-shadow:inset 0 1px 0 rgba(230,57,70,0.08);
-  transition:all 0.3s ease;
+.clink {
+  padding: 18px 22px;
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none; color: var(--text);
+  border-radius: 14px;
+  background: rgba(230, 57, 70, 0.08);
+  border: 1px solid rgba(230, 57, 70, 0.18);
+  position: relative; overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(230, 57, 70, 0.08);
+  transition: all 0.3s ease;
 }
+
 .clink::before{
   content:'';position:absolute;
   top:0;left:8%;right:8%;height:1px;
@@ -652,10 +652,28 @@ footer{
 }
 .f-logo{font-family:'Space Mono',monospace;font-size:0.85rem;color:var(--muted)}
 .f-logo span{color:var(--red)}
-.f-copy{font-size:0.75rem;color:var(--dim)}
-.f-socials{display:flex;gap:16px}
-.fsoc{color:var(--muted);text-decoration:none;font-size:0.8rem;transition:color 0.2s}
-.fsoc:hover{color:var(--red)}
+.f-copy{font-size:0.75rem;color:var(--muted);letter-spacing:0.3px}
+.f-socials{display:flex;gap:12px}
+.fsoc{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:0.82rem;
+  font-weight:500;
+  letter-spacing:0.3px;
+  padding:10px 20px;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(10px);
+  transition:all 0.25s;
+}
+.fsoc:hover{
+  color:var(--red);
+  border-color:rgba(230,57,70,0.35);
+  background:rgba(230,57,70,0.07);
+  transform:translateY(-2px);
+  box-shadow:0 4px 16px rgba(230,57,70,0.15);
+}
 
 /* DIVIDER */
 .divider{
@@ -827,10 +845,7 @@ because the best lines of code are the ones that make something real.
     </div>
   </div>
 
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
+
 </section>
 
 <div class="divider"></div>
@@ -893,20 +908,20 @@ because the best lines of code are the ones that make something real.
       <div class="skill-cat-name">Frontend</div>
       <div class="skill-bars">
         <div class="skill-bar-item">
-          <div class="skill-bar-head"><span>React.js</span><span>80%</span></div>
-          <div class="skill-track"><div class="skill-fill" style="--w:0.80"></div></div>
+          <div class="skill-bar-head"><span>React.js</span><span>70%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.70"></div></div>
         </div>
         <div class="skill-bar-item">
-          <div class="skill-bar-head"><span>HTML &amp; CSS</span><span>90%</span></div>
-          <div class="skill-track"><div class="skill-fill" style="--w:0.90"></div></div>
+          <div class="skill-bar-head"><span>HTML &amp; CSS</span><span>80%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.80"></div></div>
         </div>
         <div class="skill-bar-item">
           <div class="skill-bar-head"><span>JavaScript</span><span>75%</span></div>
           <div class="skill-track"><div class="skill-fill" style="--w:0.75"></div></div>
         </div>
         <div class="skill-bar-item">
-          <div class="skill-bar-head"><span>Bootstrap / Tailwind</span><span>80%</span></div>
-          <div class="skill-track"><div class="skill-fill" style="--w:0.80"></div></div>
+          <div class="skill-bar-head"><span>Bootstrap / Tailwind</span><span>70%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.70"></div></div>
         </div>
       </div>
     </div>
@@ -922,8 +937,8 @@ because the best lines of code are the ones that make something real.
           <div class="skill-track"><div class="skill-fill" style="--w:0.70"></div></div>
         </div>
         <div class="skill-bar-item">
-          <div class="skill-bar-head"><span>MySQL</span><span>75%</span></div>
-          <div class="skill-track"><div class="skill-fill" style="--w:0.75"></div></div>
+          <div class="skill-bar-head"><span>MySQL</span><span>85%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.85"></div></div>
         </div>
         <div class="skill-bar-item">
           <div class="skill-bar-head"><span>REST API</span><span>82%</span></div>
@@ -933,14 +948,23 @@ because the best lines of code are the ones that make something real.
     </div>
     <div class="glass skill-cat">
       <div class="skill-cat-name">Tools &amp; Libraries</div>
-      <div class="skill-tags">
-        <span class="stag">JWT Auth</span><span class="stag">bcrypt</span>
-        <span class="stag">Multer</span><span class="stag">Nodemailer</span>
-        <span class="stag">Git &amp; GitHub</span><span class="stag">Postman</span>
-        <span class="stag">Axios</span><span class="stag">Redux</span>
-        <span class="stag">phpMyAdmin</span><span class="stag">Vercel</span>
-        <span class="stag">VSCode</span><span class="stag">uuid</span>
-      </div>
+      <div class="skill-bars">
+        <div class="skill-bar-item">
+          <div class="skill-bar-head"><span>Vercel</span><span>70%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.70"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-head"><span>Postman</span><span>75%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.75"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-head"><span>Tailwind CSS</span><span>80%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.80"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-head"><span>Multer</span><span>75%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.75"></div></div>
+        </div>
     </div>
   </div>
 </section>
@@ -1077,16 +1101,16 @@ because the best lines of code are the ones that make something real.
         </a>
         <a class="clink" style="cursor:default">
           <div class="c-icon">📍</div>
-          <div><div class="c-label">Location</div><div class="c-val">Depok, West Java — Open to Remote</div></div>
+          <div><div class="c-label">Location</div><div class="c-val">Depok, West Java — Open to Remote & Onsite</div></div>
         </a>
       </div>
     </div>
-    <form class="contact-form" onsubmit="handleForm(event)">
+    <form class="contact-form" action="https://formspree.io/f/xbdbbalw" method="POST">
       <h3>Send a Message</h3>
-      <input class="finput" type="text" placeholder="Your name" required>
-      <input class="finput" type="email" placeholder="Your email" required>
-      <input class="finput" type="text" placeholder="Subject">
-      <textarea class="finput" rows="4" placeholder="Your message..." required></textarea>
+      <input class="finput" type="text" name="name" placeholder="Your name" required>
+      <input class="finput" type="email" name="email" placeholder="Your email" required>
+      <input class="finput" type="text" name="subject" placeholder="Subject">
+      <textarea class="finput" name="message" rows="4" placeholder="Your message..." required></textarea>
       <button type="submit" class="btn-mag btn-mag-primary" style="width:100%;justify-content:center;margin-top:4px;cursor:pointer">Send Message →</button>
     </form>
   </div>
@@ -1125,8 +1149,7 @@ tl.to('.hero-available',{opacity:1,y:0,duration:0.6,delay:0.2})
   .to('.hero-desc',{opacity:1,y:0,duration:0.6},'-=0.4')
   .to('.hero-cta',{opacity:1,y:0,duration:0.6},'-=0.4')
   .to('.hero-photo',{opacity:1,duration:0.8,ease:'power2.out'},'-=0.6')
-  .to('.hero-stats',{opacity:1,y:0,duration:0.6},'-=0.3')
-  .to('.scroll-hint',{opacity:1,duration:0.6},'-=0.2');
+  .to('.hero-stats',{opacity:1,y:0,duration:0.6},'-=0.3');
 
 // Scroll animations
 gsap.utils.toArray('.section-wrap').forEach(sec=>{
@@ -1160,24 +1183,6 @@ gsap.from('.proj-card',{opacity:0,y:40,duration:0.7,stagger:0.1,scrollTrigger:{t
 
 // Experience
 gsap.from('.exp-item',{opacity:0,x:-30,duration:0.7,stagger:0.15,scrollTrigger:{trigger:'#experience',start:'top 75%'}});
-
-// Contact
-gsap.from('.clink',{opacity:0,x:-20,duration:0.6,stagger:0.1,scrollTrigger:{trigger:'#contact',start:'top 75%'}});
-gsap.from('.contact-form',{opacity:0,x:20,duration:0.7,scrollTrigger:{trigger:'#contact',start:'top 75%'}});
-
-// Form handler
-function handleForm(e){
-  e.preventDefault();
-  const btn=e.target.querySelector('button');
-  btn.textContent='Sent! ✓';
-  btn.style.background='#2d8a4e';
-  setTimeout(()=>{
-    btn.textContent='Send Message →';
-    btn.style.background='';
-    e.target.reset();
-  },3000);
-}
-window.handleForm=handleForm;
 
 // Hire Me Firework
 function fireParticles(){
