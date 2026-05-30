@@ -133,8 +133,10 @@ nav{
   transform:scaleX(0);transform-origin:right;
   transition:transform 0.3s ease;
 }
-.nav-links a:hover{color:var(--text)}
-.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-links a:hover,
+.nav-links a.active{color:var(--text)}
+.nav-links a:hover::after,
+.nav-links a.active::after{transform:scaleX(1);transform-origin:left}
 
 .hamburger{
   display:none;
@@ -1293,6 +1295,28 @@ navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
     hamburger.classList.remove('active');
     navLinks.classList.remove('open');
+  });
+});
+
+// Active nav highlight on scroll
+const sections = document.querySelectorAll('section[id]');
+const navAnchors = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 100;
+    if(window.scrollY >= sectionTop){
+      current = section.getAttribute('id');
+    }
+  });
+
+  navAnchors.forEach(a => {
+    a.classList.remove('active');
+    if(a.getAttribute('href') === `#${current}`){
+      a.classList.add('active');
+    }
   });
 });
 
