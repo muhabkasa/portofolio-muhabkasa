@@ -19,6 +19,39 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <style>
+
+/* Loading Screen */
+#loader{
+  position:fixed;inset:0;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:24px;z-index:9999;
+  transition:opacity 0.5s ease, visibility 0.5s ease;
+}
+#loader.hidden{opacity:0;visibility:hidden}
+.loader-logo{
+  font-family:'Space Mono',monospace;
+  font-size:1.8rem;font-weight:700;
+  letter-spacing:2px;color:var(--text);
+}
+.loader-logo span{color:var(--accent)}
+.loader-bar{
+  width:200px;height:3px;
+  background:rgba(255,255,255,0.15);
+  border-radius:2px;overflow:hidden;
+}
+.loader-fill{
+  height:100%;width:0%;
+  background:#e63946;
+  border-radius:2px;
+  animation:fill 1.5s ease forwards;
+}
+@keyframes fill{
+  0%{width:0%}
+  100%{width:100%}
+}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --red:#e63946;--red2:#ff4757;
@@ -811,7 +844,14 @@ footer{
 
 </style>
 </head>
+
 <body>
+
+<!-- Loading Screen -->
+<div id="loader">
+  <div class="loader-logo">MUHABKASA<span>.</span></div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
 
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
@@ -1172,6 +1212,14 @@ because the best lines of code are the ones that make something real.
 
 <script>
 gsap.registerPlugin(ScrollTrigger);
+
+// Loading Screen
+const loader = document.getElementById('loader');
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    loader.classList.add('hidden');
+  }, 1600);
+});
 
 // Custom Cursor
 const cursor = document.getElementById('cursor');
