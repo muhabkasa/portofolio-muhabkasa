@@ -1,20 +1,30 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- SEO Meta Tags -->
-<meta name="description" content="Muhammad Abdul Karim — Fullstack Web Developer dari Depok. Berpengalaman dalam React.js, Node.js, Express, dan MySQL. Tersedia untuk fulltime, freelance, dan kolaborasi.">
+<meta name="description" content="Muhammad Abdul Karim — Fullstack Web Developer from Depok. Experienced in React.js, Node.js, Express, and MySQL. Open to fulltime, freelance, and collaboration.">
 <meta name="author" content="Muhammad Abdul Karim Satha">
 <meta name="keywords" content="fullstack developer, web developer, react, nodejs, depok, portfolio">
+<meta name="theme-color" content="#05050a">
+<link rel="canonical" href="https://portofolio-muhabkasa.vercel.app/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2305050a'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='%23e63946' text-anchor='middle'%3EM.%3C/text%3E%3C/svg%3E">
 
 <!-- Open Graph (untuk LinkedIn, WhatsApp, Facebook) -->
 <meta property="og:title" content="Muhammad Abdul Karim — Fullstack Web Developer">
-<meta property="og:description" content="Fullstack Web Developer berpengalaman dalam React.js, Node.js, dan MySQL. Tersedia untuk fulltime & freelance.">
+<meta property="og:description" content="Fullstack Web Developer experienced in React.js, Node.js, and MySQL. Open to fulltime & freelance.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://portofolio-muhabkasa.vercel.app/">
 <meta property="og:image" content="https://portofolio-muhabkasa.vercel.app/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Muhammad Abdul Karim — Fullstack Web Developer">
+<meta name="twitter:description" content="Fullstack Web Developer experienced in React.js, Node.js, and MySQL.">
+<meta name="twitter:image" content="https://portofolio-muhabkasa.vercel.app/assets/og-image.jpg">
 <title>Muhammad Abdul Karim — Fullstack Developer</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Muhammad Abdul Karim","jobTitle":"Fullstack Web Developer","address":{"@type":"PostalAddress","addressLocality":"Depok","addressRegion":"West Java","addressCountry":"ID"},"url":"https://portofolio-muhabkasa.vercel.app/","sameAs":["https://github.com/muhabkasa","https://www.linkedin.com/in/muhabkasa/"],"knowsAbout":["React.js","Node.js","Express","MySQL"]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -28,8 +38,11 @@
   align-items:center;justify-content:center;
   gap:24px;z-index:9999;
   transition:opacity 0.5s ease, visibility 0.5s ease;
+  /* CSS-only killscreen: even if all JS fails, never trap user */
+  animation:loaderKill 0.5s ease 4s forwards;
 }
-#loader.hidden{opacity:0;visibility:hidden}
+@keyframes loaderKill{to{opacity:0;visibility:hidden;pointer-events:none}}
+#loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
 .loader-logo{
   font-family:'Space Mono',monospace;
   font-size:1.8rem;font-weight:700;
@@ -65,18 +78,27 @@
   --border:rgba(255,255,255,0.08);
   --border2:rgba(230,57,70,0.28);
   --border3:rgba(255,255,255,0.14);
-  --text:#eeeef8;--muted:#5a5a7a;--dim:#1e1e2e;
+  --text:#eeeef8;--muted:#a7a7c3;--dim:#1e1e2e;
 }
+/* Accessibility: visible focus + skip link */
+:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:4px}
+.skip-link{position:fixed;top:-60px;left:16px;z-index:10000;background:var(--red);color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.85rem;transition:top 0.2s}
+.skip-link:focus{top:12px}
 html{scroll-behavior:smooth}
 body{
   background:var(--bg);color:var(--text);
   font-family:'Space Grotesk',sans-serif;
   overflow-x:hidden;line-height:1.6;
-  cursor:none;
+  cursor:auto;
 }
+/* Hide native cursor only when custom cursor is active (fine pointers + JS) */
+body.has-custom-cursor,
+body.has-custom-cursor a,
+body.has-custom-cursor button{cursor:none}
 
-/* CUSTOM CURSOR */
+/* CUSTOM CURSOR - hidden by default, shown via JS on fine pointers */
 #cursor{
+  display:none;
   position:fixed;width:12px;height:12px;
   background:var(--red);border-radius:50%;
   pointer-events:none;z-index:9999;
@@ -84,11 +106,16 @@ body{
   transition:transform 0.1s,width 0.3s,height 0.3s,background 0.3s;
 }
 #cursor-ring{
+  display:none;
   position:fixed;width:36px;height:36px;
   border:1px solid rgba(230,57,70,0.5);
   border-radius:50%;pointer-events:none;
   z-index:9998;transform:translate(-50%,-50%);
   transition:all 0.15s ease;
+}
+@media(pointer:fine){
+  body.has-custom-cursor #cursor,
+  body.has-custom-cursor #cursor-ring{display:block}
 }
 body:has(a:hover) #cursor,
 body:has(button:hover) #cursor{width:24px;height:24px;background:rgba(230,57,70,0.4)}
@@ -146,8 +173,10 @@ nav{
   -webkit-backdrop-filter:blur(28px) saturate(1.5);
   border-bottom:1px solid rgba(255,255,255,0.06);
   box-shadow:0 1px 0 rgba(255,255,255,0.04), 0 4px 24px rgba(0,0,0,0.3);
-  transform:translateY(-100%);
+  transform:none;
 }
+/* JS will set initial hidden state only if GSAP loads */
+nav.js-hidden{transform:translateY(-100%)}
 .nav-logo{
   font-family:'Space Mono',monospace;
   font-size:1.05rem;letter-spacing:2px;color:var(--text);
@@ -222,7 +251,7 @@ nav{
   border-radius:8px;
   font-family:'Space Grotesk',sans-serif;
   font-size:0.82rem;font-weight:600;
-  cursor:none;text-decoration:none;
+  cursor:pointer;text-decoration:none;
   transition:all 0.25s;letter-spacing:0.5px;
   backdrop-filter:blur(10px);
 }
@@ -244,7 +273,7 @@ nav{
   font-size:0.75rem;color:var(--red);
   letter-spacing:1.5px;text-transform:uppercase;
   margin-bottom:36px;width:fit-content;
-  opacity:0;
+  opacity:1;
   backdrop-filter:blur(12px);
   box-shadow:0 0 20px rgba(230,57,70,0.08), inset 0 1px 0 rgba(230,57,70,0.15);
 }
@@ -261,28 +290,29 @@ nav{
   letter-spacing:-3px;overflow:hidden;
 }
 .hero-name-line{display:block;overflow:hidden}
-.hero-name-inner{display:block;transform:translateY(110%)}
+.hero-name-inner{display:block;transform:none}
+.js-anim .hero-name-inner{transform:translateY(110%)}
 .red{color:var(--red)}
 
 .hero-role{
   font-family:'Space Mono',monospace;
   font-size:clamp(0.85rem,1.5vw,1.1rem);
   color:var(--muted);margin:24px 0 20px;
-  letter-spacing:2px;opacity:0;
+  letter-spacing:2px;opacity:1;
 }
 .hero-role span{color:var(--text)}
 .hero-desc{
   max-width:520px;font-size:1rem;
   color:var(--muted);line-height:1.9;
-  margin-bottom:48px;opacity:0;
+  margin-bottom:48px;opacity:1;
 }
-.hero-cta{display:flex;gap:14px;flex-wrap:wrap;opacity:0}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;opacity:1}
 
 .btn-mag{
   padding:14px 30px;border-radius:10px;
   font-family:'Space Grotesk',sans-serif;
   font-size:0.9rem;font-weight:600;
-  cursor:none;text-decoration:none;
+  cursor:pointer;text-decoration:none;
   display:inline-flex;align-items:center;gap:8px;
   transition:all 0.3s;
   position:relative;overflow:hidden;
@@ -319,7 +349,7 @@ nav{
   display:flex;gap:56px;
   margin-top:80px;padding-top:48px;
   border-top:1px solid rgba(255,255,255,0.06);
-  opacity:0;
+  opacity:1;
 }
 .stat-num{font-size:2.4rem;font-weight:700;line-height:1}
 .stat-num sup{color:var(--red);font-size:1.4rem}
@@ -328,7 +358,7 @@ nav{
 .scroll-hint{
   position:absolute;bottom:40px;left:50%;
   transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;
+  display:flex;flex-direction:column;align-items:center;gap:8px;opacity:1;
 }
 .scroll-hint span{font-size:0.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
 .scroll-line{
@@ -453,7 +483,6 @@ nav{
   width:40px;height:40px;border-radius:10px;
   background:rgba(230,57,70,0.08);
   border:1px solid rgba(230,57,70,0.18);
-  display:flex;align-items:center;justify-content:center;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
   box-shadow:inset 0 1px 0 rgba(230,57,70,0.12);
   position:relative;z-index:2;
@@ -690,6 +719,10 @@ nav{
   background:linear-gradient(90deg,transparent,rgba(255,255,255,0.10),transparent);
 }
 .contact-form h3{font-size:1rem;font-weight:600;margin-bottom:8px;position:relative;z-index:2}
+.flabel{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.form-status{font-size:0.82rem;color:var(--muted);min-height:1.2em;margin-top:4px;position:relative;z-index:2}
+.form-status.ok{color:#4ade80}
+.form-status.err{color:var(--red2)}
 
 .finput{
   background:rgba(255,255,255,0.03);
@@ -754,7 +787,7 @@ footer{
 }
 
 @media(max-width:768px){
-  nav{padding:16px 20px}
+  nav{padding:16px 20px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
   .nav-links{display:none}
   #hero,.section-wrap{padding-left:6vw;padding-right:6vw}
   .about-grid,.contact-grid{grid-template-columns:1fr}
@@ -763,7 +796,18 @@ footer{
   .hero-stats{gap:28px}
   footer{padding:24px 20px;flex-direction:column;gap:12px;text-align:center}
   body{cursor:auto}
-  #cursor,#cursor-ring{display:none}
+  #cursor,#cursor-ring{display:none!important}
+  /* Mobile perf: kill heavy fixed effects */
+  .orb,.glow-top,.glow-bottom{display:none}
+  body::before{display:none}
+  .glass,.glass-red,.contact-form,.nav-cta,.btn-mag-outline,.fsoc{backdrop-filter:none;-webkit-backdrop-filter:none}
+}
+
+/* Reduced motion: respect user preference */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+  html{scroll-behavior:auto}
+  .orb,.glow-top,.glow-bottom{display:none}
 }
 
 /* HERO PHOTO */
@@ -807,7 +851,7 @@ footer{
     0 20px 60px rgba(0,0,0,0.5),
     0 0 40px rgba(230,57,70,0.15);
   position:relative;z-index:2;
-  opacity:0;
+  opacity:1;
   transition:box-shadow 0.4s;
 }
 .hero-photo:hover{
@@ -843,27 +887,39 @@ footer{
 }
 
 </style>
+<noscript><style>
+#loader{display:none!important}
+#navbar{transform:none!important}
+.hero-available,.hero-role,.hero-desc,.hero-cta,.hero-stats,.hero-photo,.scroll-hint{opacity:1!important}
+.hero-name-inner{transform:none!important}
+.skill-fill{transform:scaleX(var(--w,0.7))!important}
+</style></noscript>
 </head>
 
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- Loading Screen -->
-<div id="loader">
+<div id="loader" aria-hidden="true">
   <div class="loader-logo">MUHABKASA<span>.</span></div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
 </div>
+<script>
+// Independent loader killscreen - runs even if main script below crashes
+(function(){var l=document.getElementById('loader');function h(){if(l){l.classList.add('hidden')}}window.addEventListener('load',function(){setTimeout(h,1600)});setTimeout(h,2500);})();
+</script>
 
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-<div class="glow-top"></div>
-<div class="glow-bottom"></div>
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
+<div class="glow-top" aria-hidden="true"></div>
+<div class="glow-bottom" aria-hidden="true"></div>
+<div class="orb orb1" aria-hidden="true"></div>
+<div class="orb orb2" aria-hidden="true"></div>
 
 <!-- NAV -->
-<nav id="navbar">
+<nav id="navbar" aria-label="Main navigation">
   <div class="nav-logo">MUHABKASA<span>.</span></div>
-  <ul class="nav-links">
+  <ul class="nav-links" id="nav-menu">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -871,7 +927,7 @@ footer{
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Hire Me</a>
-  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
   <span></span>
   <span></span>
   <span></span>
@@ -879,7 +935,8 @@ footer{
 </nav>
 
 <!-- HERO -->
-<section id="hero">
+<main id="main">
+<section id="hero" aria-label="Intro">
   <div class="hero-content">
   <div class="hero-text">
   <div class="hero-available">
@@ -895,40 +952,39 @@ footer{
   <p class="hero-role"><span>Fullstack</span> Web Developer</p>
 
   <p class="hero-desc">
-    A passionate Fullstack Web Developer who loves building digital products from scratch.
-Transitioning from Office Admin to Fullstack Developer —
-because the best lines of code are the ones that make something real.
+    I build responsive frontends and reliable backends — from DB schema and REST API to clean UI.
+    Informatics graduate transitioning from Office Admin to Fullstack Developer.
   </p>
 
   <div class="hero-cta">
     <a href="#projects" class="btn-mag btn-mag-primary">View Projects ↓</a>
     <a href="assets/CV_Muhammad_Abdul_Karim_Satha_Web_Developer.pdf" download class="btn-mag btn-mag-outline">Download CV</a>
-    <a href="https://github.com/muhabkasa" target="_blank" class="btn-mag btn-mag-outline">GitHub →</a>
+    <a href="https://github.com/muhabkasa" target="_blank" rel="noopener" class="btn-mag btn-mag-outline">GitHub →</a>
   </div>
 
   </div><!-- end hero-text -->
   <div class="hero-photo-wrap">
     <div class="hero-photo-ring"></div>
     <div class="hero-photo-ring2"></div>
-    <img class="hero-photo" src="assets/photo.png" alt="Muhammad Abdul Karim - Fullstack Web Developer">    <div class="hero-photo-glow"></div>
+    <img class="hero-photo" src="assets/photo.png" alt="Portrait of Muhammad Abdul Karim, Fullstack Web Developer" fetchpriority="high" decoding="async" onerror="this.style.display='none';var f=document.querySelector('.hero-photo-fallback');if(f)f.style.display='flex'">    <div class="hero-photo-fallback" style="display:none;width:280px;height:280px;border-radius:50%;align-items:center;justify-content:center;font-weight:700;font-size:3rem;background:rgba(230,57,70,0.12);border:2px solid rgba(230,57,70,0.35);position:relative;z-index:2">MAK</div>    <div class="hero-photo-glow" aria-hidden="true"></div>
   </div>
   </div><!-- end hero-content -->
   <div class="hero-stats">
     <div>
-      <div class="stat-num">11<sup>+</sup></div>
-      <div class="stat-label">Missions completed</div>
-    </div>
-    <div>
-      <div class="stat-num">6<sup>+</sup></div>
+      <div class="stat-num">5<sup>+</sup></div>
       <div class="stat-label">Projects built</div>
     </div>
     <div>
-      <div class="stat-num">2025</div>
-      <div class="stat-label">Harisenin Bootcamp</div>
+      <div class="stat-num">8<sup>+</sup></div>
+      <div class="stat-label">Technologies used</div>
+    </div>
+    <div>
+      <div class="stat-num">11<sup>+</sup></div>
+      <div class="stat-label">Bootcamp missions</div>
     </div>
   </div>
 
-
+  <div class="scroll-hint" aria-hidden="true"><span>Scroll</span><div class="scroll-line"></div></div>
 </section>
 
 <div class="divider"></div>
@@ -973,7 +1029,7 @@ because the best lines of code are the ones that make something real.
         <div>
           <div class="a-label">Career Goal</div>
           <div class="a-val">Fullstack Web Developer</div>
-          <div class="a-label">Gojek · Telkomsel · BUMN · Startup</div>
+          <div class="a-label">Open to fulltime · remote · freelance</div>
         </div>
       </div>
     </div>
@@ -1048,6 +1104,7 @@ because the best lines of code are the ones that make something real.
           <div class="skill-bar-head"><span>Multer</span><span>75%</span></div>
           <div class="skill-track"><div class="skill-fill" style="--w:0.75"></div></div>
         </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1061,62 +1118,62 @@ because the best lines of code are the ones that make something real.
   <div class="proj-grid">
 
     <div class="glass-red proj-card" style="border-radius:18px">
-      <div class="proj-img">🎬<span class="proj-badge">Fullstack</span></div>
+      <div class="proj-img"><span aria-hidden="true">🎬</span><span class="proj-badge">Fullstack</span></div>
       <div class="proj-body">
         <h3 class="proj-title">Cinemania</h3>
-        <p class="proj-desc">A movie management app with JWT authentication, email verification via Nodemailer, poster upload with Multer, and query params for filter/search/sort.</p>
+        <p class="proj-desc">Featured project: movie management with JWT auth, email verification, poster upload, and filter/search/sort. Built to show end-to-end ownership from DB schema to UI.</p>
         <div class="proj-tags"><span class="ptag">React.js</span><span class="ptag">Node.js</span><span class="ptag">Express</span><span class="ptag">MySQL</span><span class="ptag">JWT</span></div>
-        <div class="proj-links"><a href="https://github.com/muhabkasa/mission11_advance-backend-1" target="_blank" class="plink">GitHub →</a></div>
+        <div class="proj-links"><a href="https://github.com/muhabkasa/mission11_advance-backend-1" target="_blank" rel="noopener" class="plink">GitHub →</a><!-- Add live URL here when deployed: <a href="#" class="plink">Live Demo →</a> --></div>
       </div>
     </div>
 
     <div class="glass proj-card">
-      <div class="proj-img">🎥<span class="proj-badge">Fullstack</span></div>
+      <div class="proj-img"><span aria-hidden="true">🎥</span><span class="proj-badge">Fullstack</span></div>
       <div class="proj-body">
         <h3 class="proj-title">Movie App CRUD</h3>
-        <p class="proj-desc">Full CRUD movie app with React frontend and Node.js/Express backend, image upload via Multer, MySQL connection and multi-table relations.</p>
+        <p class="proj-desc">Full CRUD with multi-table MySQL relations, image upload, and REST API consumed by a React frontend.</p>
         <div class="proj-tags"><span class="ptag">React.js</span><span class="ptag">Node.js</span><span class="ptag">MySQL</span><span class="ptag">Multer</span></div>
-        <div class="proj-links"><a href="https://github.com/muhabkasa/Mission-6-Chill-Movie-App" target="_blank" class="plink">GitHub →</a></div>
+        <div class="proj-links"><a href="https://github.com/muhabkasa/Mission-6-Chill-Movie-App" target="_blank" rel="noopener" class="plink">GitHub →</a></div>
       </div>
     </div>
 
     <div class="glass proj-card">
-      <div class="proj-img">🌐<span class="proj-badge">Frontend</span></div>
+      <div class="proj-img"><span aria-hidden="true">🌐</span><span class="proj-badge">Frontend</span></div>
       <div class="proj-body">
         <h3 class="proj-title">Chill Movie App React</h3>
-        <p class="proj-desc">React-based movie catalog with responsive design, authentication UI, and multi-page navigation using React Router DOM.</p>
+        <p class="proj-desc">Responsive catalog with auth UI and multi-page routing. Focus on clean component structure and reusable layout.</p>
         <div class="proj-tags"><span class="ptag">React.js</span><span class="ptag">React Router</span><span class="ptag">CSS</span></div>
-        <div class="proj-links"><a href="https://github.com/muhabkasa/Mission-5---Chill-Movie-App-with-react-" target="_blank" class="plink">GitHub →</a></div>
+        <div class="proj-links"><a href="https://github.com/muhabkasa/Mission-5---Chill-Movie-App-with-react-" target="_blank" rel="noopener" class="plink">GitHub →</a></div>
       </div>
     </div>
 
     <div class="glass proj-card">
-      <div class="proj-img">⚡<span class="proj-badge">Frontend</span></div>
+      <div class="proj-img"><span aria-hidden="true">⚡</span><span class="proj-badge">Frontend</span></div>
       <div class="proj-body">
         <h3 class="proj-title">MockAPI with Axios</h3>
-        <p class="proj-desc">Movie catalog with real API integration using Axios, MockAPI service architecture, environment variables, and async CRUD operations.</p>
+        <p class="proj-desc">Async CRUD against MockAPI with service-layer architecture, env config, and loading/error states.</p>
         <div class="proj-tags"><span class="ptag">React.js</span><span class="ptag">Axios</span><span class="ptag">MockAPI</span></div>
-        <div class="proj-links"><a href="https://github.com/muhabkasa/Mission-7-MockAPI-with-axios" target="_blank" class="plink">GitHub →</a></div>
+        <div class="proj-links"><a href="https://github.com/muhabkasa/Mission-7-MockAPI-with-axios" target="_blank" rel="noopener" class="plink">GitHub →</a></div>
       </div>
     </div>
 
     <div class="glass proj-card">
-      <div class="proj-img">✅<span class="proj-badge">Frontend</span></div>
+      <div class="proj-img"><span aria-hidden="true">✅</span><span class="proj-badge">Fundamentals</span></div>
       <div class="proj-body">
         <h3 class="proj-title">To-Do List App</h3>
-        <p class="proj-desc">Task management app with add, edit, delete, and filter features built with vanilla JavaScript and localStorage.</p>
+        <p class="proj-desc">JavaScript fundamentals: add/edit/delete/filter with localStorage persistence. Shows core logic without frameworks.</p>
         <div class="proj-tags"><span class="ptag">JavaScript</span><span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">localStorage</span></div>
-        <div class="proj-links"><a href="https://github.com/muhabkasa/Mission-4---To-Do-List" target="_blank" class="plink">GitHub →</a></div>
+        <div class="proj-links"><a href="https://github.com/muhabkasa/Mission-4---To-Do-List" target="_blank" rel="noopener" class="plink">GitHub →</a></div>
       </div>
     </div>
 
-    <div class="glass proj-card" style="border-style:dashed;opacity:0.7">
-      <div class="proj-img" style="background:rgba(230,57,70,0.04)">🚀<span class="proj-badge" style="background:rgba(255,255,255,0.04);border-color:var(--border);color:var(--muted)">Coming Soon</span></div>
+    <div class="glass proj-card" style="border-style:dashed;opacity:0.85">
+      <div class="proj-img" style="background:rgba(230,57,70,0.04)"><span aria-hidden="true">🚀</span><span class="proj-badge" style="background:rgba(255,255,255,0.04);border-color:var(--border);color:var(--muted)">Open for work</span></div>
       <div class="proj-body">
-        <h3 class="proj-title">Next Project</h3>
-        <p class="proj-desc">Always something new in the making. Keep learning, keep building — because every line of code is a step toward the dream.</p>
-        <div class="proj-tags"><span class="ptag">???</span></div>
-        <div class="proj-links"><a href="https://github.com/muhabkasa" target="_blank" class="plink">Follow GitHub →</a></div>
+        <h3 class="proj-title">Have an idea?</h3>
+        <p class="proj-desc">I help teams ship responsive frontends and reliable backends. Tell me about your project — I reply within 1x24h.</p>
+        <div class="proj-tags"><span class="ptag">Freelance</span><span class="ptag">Fulltime</span><span class="ptag">Collab</span></div>
+        <div class="proj-links"><a href="#contact" class="plink">Start a project →</a></div>
       </div>
     </div>
 
@@ -1174,11 +1231,11 @@ because the best lines of code are the ones that make something real.
           <div class="c-icon">✉️</div>
           <div><div class="c-label">Email</div><div class="c-val">abdul.karim122198@gmail.com</div></div>
         </a>
-        <a href="https://github.com/muhabkasa" target="_blank" class="clink">
+        <a href="https://github.com/muhabkasa" target="_blank" rel="noopener" class="clink">
           <div class="c-icon">🐙</div>
           <div><div class="c-label">GitHub</div><div class="c-val">github.com/muhabkasa</div></div>
         </a>
-        <a href="https://www.linkedin.com/in/muhabkasa/" target="_blank" class="clink">
+        <a href="https://www.linkedin.com/in/muhabkasa/" target="_blank" rel="noopener" class="clink">
           <div class="c-icon">💼</div>
           <div><div class="c-label">LinkedIn</div><div class="c-val">Muhammad Abdul Karim Satha</div></div>
         </a>
@@ -1190,71 +1247,108 @@ because the best lines of code are the ones that make something real.
     </div>
     <form class="contact-form" action="https://formspree.io/f/xbdbbalw" method="POST">
       <h3>Send a Message</h3>
-      <input class="finput" type="text" name="name" placeholder="Your name" required>
-      <input class="finput" type="email" name="email" placeholder="Your email" required>
-      <input class="finput" type="text" name="subject" placeholder="Subject">
-      <textarea class="finput" name="message" rows="4" placeholder="Your message..." required></textarea>
+      <label class="flabel" for="cf-name">Name</label>
+      <input class="finput" id="cf-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
+      <label class="flabel" for="cf-email">Email</label>
+      <input class="finput" id="cf-email" type="email" name="email" placeholder="Your email" autocomplete="email" required>
+      <label class="flabel" for="cf-subject">Subject (optional)</label>
+      <input class="finput" id="cf-subject" type="text" name="subject" placeholder="Subject" autocomplete="off">
+      <label class="flabel" for="cf-msg">Message</label>
+      <textarea class="finput" id="cf-msg" name="message" rows="4" placeholder="Your message..." required></textarea>
       <button type="submit" class="btn-mag btn-mag-primary" style="width:100%;justify-content:center;margin-top:4px;cursor:pointer">Send Message →</button>
+      <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
+</main>
 
 <!-- FOOTER -->
 <footer>
   <div class="f-logo">MAK<span>.</span></div>
-  <div class="f-copy">© 2025 Muhammad Abdul Karim — Built with passion & coffee</div>
+  <div class="f-copy">© <span id="year">2025</span> Muhammad Abdul Karim — Built with passion & coffee</div>
   <div class="f-socials">
-    <a href="https://github.com/muhabkasa" target="_blank" class="fsoc">GitHub</a>
-    <a href="https://www.linkedin.com/in/muhabkasa/" target="_blank" class="fsoc">LinkedIn</a>
+    <a href="https://github.com/muhabkasa" target="_blank" rel="noopener" class="fsoc">GitHub</a>
+    <a href="https://www.linkedin.com/in/muhabkasa/" target="_blank" rel="noopener" class="fsoc">LinkedIn</a>
     <a href="mailto:abdul.karim122198@gmail.com" class="fsoc">Email</a>
   </div>
 </footer>
 
 <script>
-gsap.registerPlugin(ScrollTrigger);
+// Safe fallback if GSAP CDN fails - show content immediately
+function showContentFallback(){
+  document.getElementById('loader')?.classList.add('hidden');
+  document.querySelectorAll('.hero-available,.hero-role,.hero-desc,.hero-cta,.hero-stats,.hero-photo,.scroll-hint').forEach(el=>{el.style.opacity='1'});
+  document.querySelectorAll('.hero-name-inner').forEach(el=>{el.style.transform='none'});
+  document.querySelectorAll('.skill-fill').forEach(bar=>{
+    const w=bar.style.getPropertyValue('--w')||'0.7';
+    bar.style.transform=`scaleX(${w})`;
+  });
+  const nav=document.getElementById('navbar');
+  if(nav) nav.style.transform='none';
+}
+const hasGsap = typeof gsap !== 'undefined';
+if(hasGsap && typeof ScrollTrigger !== 'undefined'){gsap.registerPlugin(ScrollTrigger)}
 
-// Loading Screen
+// Loading Screen - failsafe (works even if load event already fired / slow)
 const loader = document.getElementById('loader');
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    loader.classList.add('hidden');
-  }, 1600);
-});
+function hideLoader(){loader?.classList.add('hidden')}
+window.addEventListener('load', () => {setTimeout(hideLoader, 1600)});
+setTimeout(hideLoader, 3500); // absolute failsafe
 
-// Custom Cursor
+// Custom Cursor - no GSAP dependency, fine pointers only
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
-document.addEventListener('mousemove',e=>{
-  gsap.to(cursor,{x:e.clientX,y:e.clientY,duration:0.1});
-  gsap.to(ring,{x:e.clientX,y:e.clientY,duration:0.18});
-});
+if(window.matchMedia('(pointer:fine)').matches && cursor && ring){
+  document.body.classList.add('has-custom-cursor');
+  let cx=0, cy=0, rx=0, ry=0, raf=null;
+  document.addEventListener('mousemove',e=>{
+    cx=e.clientX; cy=e.clientY;
+    cursor.style.left=cx+'px'; cursor.style.top=cy+'px';
+    if(!raf) raf=requestAnimationFrame(updateRing);
+  },{passive:true});
+  function updateRing(){
+    rx+=(cx-rx)*0.2; ry+=(cy-ry)*0.2;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    if(Math.abs(cx-rx)>0.5||Math.abs(cy-ry)>0.5){raf=requestAnimationFrame(updateRing)}
+    else{raf=null}
+  }
+}
 
+if(!hasGsap){showContentFallback()}
+else{
 // NAV reveal
-gsap.to('#navbar',{y:0,duration:0.8,delay:1.2,ease:'power3.out'});
+const navbar=document.getElementById('navbar');
+if(navbar){navbar.classList.add('js-hidden');gsap.to(navbar,{y:0,duration:0.8,delay:1.2,ease:'power3.out',onStart:()=>navbar.classList.remove('js-hidden')});}
 
-// Hero animations
+// Hero animations - .from() so content is visible if GSAP fails
 const tl = gsap.timeline({defaults:{ease:'power4.out'}});
-tl.to('.hero-available',{opacity:1,y:0,duration:0.6,delay:0.2})
-  .to('.hero-name-inner',{y:'0%',duration:1,stagger:0.15},'-=0.2')
-  .to('.hero-role',{opacity:1,y:0,duration:0.6},'-=0.4')
-  .to('.hero-desc',{opacity:1,y:0,duration:0.6},'-=0.4')
-  .to('.hero-cta',{opacity:1,y:0,duration:0.6},'-=0.4')
-  .to('.hero-photo',{opacity:1,duration:0.8,ease:'power2.out'},'-=0.6')
-  .to('.hero-stats',{opacity:1,y:0,duration:0.6},'-=0.3');
+tl.from('.hero-available',{opacity:0,y:20,duration:0.6,delay:0.2})
+  .from('.hero-name-inner',{y:'110%',duration:1,stagger:0.15},'-=0.2')
+  .from('.hero-role',{opacity:0,y:20,duration:0.6},'-=0.4')
+  .from('.hero-desc',{opacity:0,y:20,duration:0.6},'-=0.4')
+  .from('.hero-cta',{opacity:0,y:20,duration:0.6},'-=0.4')
+  .from('.hero-photo',{opacity:0,scale:0.9,duration:0.8,ease:'power2.out'},'-=0.6')
+  .from('.hero-stats',{opacity:0,y:20,duration:0.6},'-=0.3')
+  .from('.scroll-hint',{opacity:0,duration:0.6},'-=0.2');
 
-// Scroll animations
+// Scroll animations - only if ScrollTrigger loaded
+if(typeof ScrollTrigger !== 'undefined'){
 gsap.utils.toArray('.section-wrap').forEach(sec=>{
   const label = sec.querySelector('.sec-label');
   const title = sec.querySelector('.sec-title');
   if(label) gsap.from(label,{opacity:0,y:20,duration:0.6,scrollTrigger:{trigger:sec,start:'top 80%'}});
   if(title) gsap.from(title,{opacity:0,y:30,duration:0.8,delay:0.1,scrollTrigger:{trigger:sec,start:'top 80%'}});
 });
+} // end ScrollTrigger guard
 
 // About
+if(typeof ScrollTrigger !== 'undefined'){
 gsap.from('.about-card',{opacity:0,x:30,duration:0.6,stagger:0.12,scrollTrigger:{trigger:'#about',start:'top 70%'}});
 gsap.from('.about-text p',{opacity:0,y:20,duration:0.6,stagger:0.1,scrollTrigger:{trigger:'#about',start:'top 70%'}});
+}
 
-// Skill bars with glowing tip
+// Skill bars with glowing tip - ScrollTrigger if available, else IntersectionObserver
+if(typeof ScrollTrigger !== 'undefined'){
 document.querySelectorAll('.skill-fill').forEach(bar=>{
   const w = bar.style.getPropertyValue('--w') || '0.7';
   ScrollTrigger.create({
@@ -1265,25 +1359,45 @@ document.querySelectorAll('.skill-fill').forEach(bar=>{
     }
   });
 });
+}else{
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){
+      const bar=e.target;
+      const w=bar.style.getPropertyValue('--w')||'0.7';
+      bar.style.transform='scaleX('+w+')';
+      setTimeout(()=>bar.classList.add('animated'),900);
+      io.unobserve(bar);
+    }
+  }),{threshold:0.3});
+  document.querySelectorAll('.skill-fill').forEach(bar=>io.observe(bar));
+}
 
 // Skill tags
+if(typeof ScrollTrigger !== 'undefined'){
 gsap.from('.stag',{opacity:0,scale:0.85,duration:0.4,stagger:0.05,scrollTrigger:{trigger:'#skills',start:'top 70%'}});
+}
 
 // Project cards
+if(typeof ScrollTrigger !== 'undefined'){
 gsap.from('.proj-card',{opacity:0,y:40,duration:0.7,stagger:0.1,scrollTrigger:{trigger:'#projects',start:'top 75%'}});
+}
 
 // Experience
+if(typeof ScrollTrigger !== 'undefined'){
 gsap.from('.exp-item',{opacity:0,x:-30,duration:0.7,stagger:0.15,scrollTrigger:{trigger:'#experience',start:'top 75%'}});
+}
+} // end else (GSAP present)
 
-// Hire Me Firework
+// Hire Me Firework - works with or without GSAP
 function fireParticles(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const btn = document.querySelector('.nav-cta');
   if(!btn) return;
   const rect = btn.getBoundingClientRect();
   const cx = rect.left + rect.width/2;
   const cy = rect.top + rect.height/2;
   const colors = ['#e63946','#ff4757','#ff6b6b','#ff8787','#c0392b','#ff2d2d'];
-  const count = 22;
+  const count = 14;
   for(let i=0;i<count;i++){
     const p = document.createElement('div');
     p.className='particle';
@@ -1305,37 +1419,52 @@ function fireParticles(){
     const dist = Math.random()*120+60;
     const tx = Math.cos(angle)*dist;
     const ty = Math.sin(angle)*dist;
-    gsap.fromTo(p,
-      {opacity:1,x:0,y:0,scale:1},
-      {
-        opacity:0,
-        x:tx,y:ty,
-        scale:0,
-        duration:2+Math.random()*1,
-        ease:'power2.out',
-        onComplete:()=>p.remove()
-      }
-    );
+    if(typeof gsap !== 'undefined'){
+      gsap.fromTo(p,
+        {opacity:1,x:0,y:0,scale:1},
+        {
+          opacity:0,
+          x:tx,y:ty,
+          scale:0,
+          duration:2+Math.random()*1,
+          ease:'power2.out',
+          onComplete:()=>p.remove()
+        }
+      );
+    }else if(p.animate){
+      p.style.opacity='1';
+      const anim=p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+tx+'px,'+ty+'px) scale(0)',opacity:0}],{duration:2000+Math.random()*1000,easing:'cubic-bezier(.2,.7,.3,1)'});
+      anim.onfinish=()=>p.remove();
+      setTimeout(()=>p.remove(),3500);
+    }else{
+      setTimeout(()=>p.remove(),2000);
+    }
   }
   // small glow flash on button
-  gsap.fromTo('.nav-cta',
-    {boxShadow:'0 0 0px rgba(230,57,70,0)'},
-    {boxShadow:'0 0 24px rgba(230,57,70,0.7)',duration:0.2,yoyo:true,repeat:1}
-  );
+  if(typeof gsap !== 'undefined'){
+    gsap.fromTo('.nav-cta',
+      {boxShadow:'0 0 0px rgba(230,57,70,0)'},
+      {boxShadow:'0 0 24px rgba(230,57,70,0.7)',duration:0.2,yoyo:true,repeat:1}
+    );
+  }
 }
 
-// Run after page load, then every 3 seconds
-setTimeout(()=>{
-  fireParticles();
-  setInterval(fireParticles, 3000);
-}, 2000);
+// Fireworks only on interaction (no interval drain), skip if reduced-motion
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hireBtn = document.querySelector('.nav-cta');
+if(hireBtn && !reduceMotion){
+  hireBtn.addEventListener('mouseenter', ()=>fireParticles(), {passive:true});
+  hireBtn.addEventListener('click', ()=>fireParticles());
+}
 
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.querySelector('.nav-links');
 
+if(hamburger && navLinks){
 hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  navLinks.classList.toggle('open');
+  const open = navLinks.classList.toggle('open');
+  hamburger.classList.toggle('active', open);
+  hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
 
 // Tutup menu saat salah satu link diklik
@@ -1343,30 +1472,61 @@ navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
     hamburger.classList.remove('active');
     navLinks.classList.remove('open');
+    hamburger.setAttribute('aria-expanded','false');
   });
 });
+} // end hamburger guard
 
-// Active nav highlight on scroll
+// Active nav highlight on scroll - rAF throttled, passive
 const sections = document.querySelectorAll('section[id]');
 const navAnchors = document.querySelectorAll('.nav-links a');
-
-window.addEventListener('scroll', () => {
+let scrollTicking=false;
+function updateActiveNav(){
+  scrollTicking=false;
   let current = '';
-
   sections.forEach(section => {
     const sectionTop = section.offsetTop - 100;
     if(window.scrollY >= sectionTop){
       current = section.getAttribute('id');
     }
   });
-
   navAnchors.forEach(a => {
-    a.classList.remove('active');
-    if(a.getAttribute('href') === `#${current}`){
-      a.classList.add('active');
+    const href=a.getAttribute('href');
+    if(href === '#'+current){a.classList.add('active')}
+    else{a.classList.remove('active')}
+  });
+}
+window.addEventListener('scroll', () => {
+  if(!scrollTicking){scrollTicking=true;requestAnimationFrame(updateActiveNav)}
+}, {passive:true});
+
+// Contact form - async with status feedback
+const yEl=document.getElementById('year');
+if(yEl) yEl.textContent=new Date().getFullYear();
+const cform=document.querySelector('.contact-form');
+if(cform){
+  const status=cform.querySelector('.form-status');
+  cform.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    if(status){status.textContent='Sending...';status.className='form-status'}
+    const btn=cform.querySelector('button[type="submit"]');
+    if(btn) btn.disabled=true;
+    try{
+      const data=new FormData(cform);
+      const res=await fetch(cform.action,{method:'POST',body:data,headers:{'Accept':'application/json'}});
+      if(res.ok){
+        if(status){status.textContent='Thanks! Message sent.';status.className='form-status ok'}
+        cform.reset();
+      }else{
+        if(status){status.textContent='Failed to send. Try email instead.';status.className='form-status err'}
+      }
+    }catch(err){
+      if(status){status.textContent='Network error. Try email instead.';status.className='form-status err'}
+    }finally{
+      if(btn) btn.disabled=false;
     }
   });
-});
+}
 
 </script>
 </body>
